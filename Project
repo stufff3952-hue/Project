@@ -44,11 +44,8 @@ public class Doodlik : MonoBehaviour
     {
       
         facingRight = faceRight;
-
-        Vector3 theScale = transform.localScale;
-
-      
-        if (faceRight)
+		Vector3 theScale = transform.localScale;
+		if (faceRight)
         {
             theScale.x = Mathf.Abs(theScale.x);
         }
@@ -85,9 +82,7 @@ public class Doodlik : MonoBehaviour
         canJump = false;
         
         rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0);
-        
-        rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        
+    	rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(jumpCooldown);
         
         canJump = true;
