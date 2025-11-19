@@ -31,3 +31,32 @@
 
 
 [EN]
+Goal: Learn to create games. We want to create a simple game similar to Doodle Jump.
+
+Basic
+- The main character automatically jumps upward.
+- The game director controls only horizontal movement (left/right).
+- The goal is to climb as high as possible while avoiding falling.
+- Add bonus elements: springs, monsters, moving platforms, etc.
+
+Choice of tools and technologies:
+- Programming language: C#
+- Development environment: Unity.
+- Sound: short sounds of jumping, collecting coins, etc.
+
+Main character creation:
+- Add a character sprite.
+- Implement jumping physics: constant downward gravity, jump upon touching a platform.
+- Make a slight upward movement with each bounce.
+
+Camera:
+- The camera follows the character, moving upward as they rise.
+- The character's horizontal position is fixed (centered), while the background and platform move.
+
+Game Controls:
+- Standard game controls: A/D or arrow keys.
+
+Testing and Balancing:
+- Ensure the game isn't too easy or too fast.
+- Ensure the platform generates fair jumps (no "impossible" jumps).
+- Test on different devices.
