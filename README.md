@@ -1,4 +1,7 @@
 [RU]
+
+
+
 Цель: Научиться создавать игры.  Мы хотим создать простую игру по типу Doodle jump.
 
 Основа
@@ -31,6 +34,9 @@
 
 
 [EN]
+
+
+
 Goal: Learn to create games. We want to create a simple game similar to Doodle Jump.
 
 Basic
@@ -63,6 +69,10 @@ Testing and Balancing:
 
 
 [CH]
+
+
+
+
 目标：学习游戏制作。我们想制作一款类似 Doodle Jump 的简单游戏。
 
 基本功能：
