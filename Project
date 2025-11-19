@@ -85,6 +85,6 @@ public class Doodlik : MonoBehaviour
     	rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(jumpCooldown);
         
-        canJump = true;
+        canJump = fa;
     }
 }
