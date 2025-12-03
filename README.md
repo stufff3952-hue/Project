@@ -65,7 +65,7 @@ Game Controls:
 Testing and Balancing:
 - Ensure the game isn't too easy or too fast.
 - Ensure the platform generates fair jumps (no "impossible" jumps).
-- Test on different PC.
+- Test on different PCs.
 
 
 [CH]
