@@ -1,104 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Doodlik : MonoBehaviour
 {
-    public new Rigidbody2D rigidbody;
-    public float jumpForce;
-    public float speed;
+    [Header("НАСТРОЙКИ")]
+    public float moveSpeed = 5f;
+    public float jumpForce = 14f;
+    public float jumpCooldown = 0.1f;
 
+    [Header("КОМПОНЕНТЫ")]
+    public Rigidbody2D rb;
     private Keyboard keyboard;
+    private float lastJumpTime;
     private bool canJump = true;
-    private float jumpCooldown = 0.2f;
-    private bool facingRight = true; // true - смотрит вправо, false - влево
-
-    private void Start()
+    void Start()
     {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.gravityScale = 3f;
+            rb.freezeRotation = true;
+        }
+        // Клавиатура
         keyboard = Keyboard.current;
     }
-
-    private void Update()
+    void Update()
     {
-        if (keyboard.aKey.isPressed) // A - влево
+        // Движение
+        float moveInput = 0f;
+        if (keyboard.aKey.isPressed) moveInput = -1f;
+        if (keyboard.dKey.isPressed) moveInput = 1f;
+        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        if (moveInput > 0.1f)
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
-            if (facingRight) // Если смотрел вправо, поворачиваем влево
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (moveInput < -0.1f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        if (Time.time - lastJumpTime > jumpCooldown)
+        {
+            canJump = true;
+        }
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform") && canJump)
+        {
+            bool isFromBelow = false;
+            foreach (ContactPoint2D contact in collision.contacts)
             {
-                Flip(false);
+                if (contact.normal.y > 0.5f)
+                {
+                    isFromBelow = true;
+                    break;
+                }
+            }
+
+            if (isFromBelow)
+            {
+                Jump();
+                lastJumpTime = Time.time;
+                canJump = false;
             }
         }
-
-        if (keyboard.dKey.isPressed) // D - вправо
-        {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
-            if (!facingRight) // Если смотрел влево, поворачиваем вправо
-            {
-                Flip(true);
-            }
-        }
     }
 
-    // Метод для поворота персонажа
-    private void Flip(bool faceRight)
+    void Jump()
     {
-        // Меняем направление взгляда
-        facingRight = faceRight;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
 
-        // Создаем временный вектор масштаба
-        Vector3 theScale = transform.localScale;
+        // Прыжок
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
-        // Меняем scale по X на противоположный (отражаем по вертикали)
-        if (faceRight)
+        // Добавляем очки
+        if (GameManager.Instance != null)
         {
-            theScale.x = Mathf.Abs(theScale.x); // Положительный scale (вправо)
+            GameManager.Instance.AddScore(10);
         }
-        else
-        {
-            theScale.x = -Mathf.Abs(theScale.x); // Отрицательный scale (влево)
-        }
-
-        // Применяем новый scale
-        transform.localScale = theScale;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Прыгаем только если можем прыгать и столкнулись с чем-то снизу
-        if (canJump && IsCollisionFromBelow(collision))
-        {
-            StartCoroutine(JumpWithCooldown());
-        }
-    }
-
-    // Проверяем, что столкновение произошло снизу
-    private bool IsCollisionFromBelow(Collision2D collision)
-    {
-        foreach (ContactPoint2D contact in collision.contacts)
-        {
-            if (contact.normal.y > 0.5f)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Прыжок с задержкой
-    private System.Collections.IEnumerator JumpWithCooldown()
-    {
-        canJump = false;
-
-        // Обнуляем вертикальную скорость перед прыжком
-        rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0);
-
-        // Применяем силу прыжка
-        rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
-        // Ждем перед следующим прыжком
-        yield return new WaitForSeconds(jumpCooldown);
-
-        canJump = true;
     }
 }
