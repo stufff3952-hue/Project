@@ -30,7 +30,7 @@
 Тестирование и баланс:
 - Проверить, чтобы игра не была слишком лёгкой или сложной.
 - Убедиться, что платформы генерируются справедливо (нет "невозможных" прыжков).
-- Протестировать на разных устройствах
+- Протестировать на разных ПК
 
 
 [EN]
@@ -65,7 +65,7 @@ Game Controls:
 Testing and Balancing:
 - Ensure the game isn't too easy or too fast.
 - Ensure the platform generates fair jumps (no "impossible" jumps).
-- Test on different devices.
+- Test on different PC.
 
 
 [CH]
@@ -117,4 +117,4 @@ Testing and Balancing:
 
 - 确保平台生成的跳跃动作公平合理（不存在“不可能”的跳跃）。
 
-- 在不同设备上进行测试。
+- 在不同的電腦上進行測試。
