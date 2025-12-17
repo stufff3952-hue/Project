@@ -13,6 +13,7 @@ public class Doodlik : MonoBehaviour
     private Keyboard keyboard;
     private float lastJumpTime;
     private bool canJump = true;
+
     void Start()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
@@ -21,12 +22,10 @@ public class Doodlik : MonoBehaviour
             rb.gravityScale = 3f;
             rb.freezeRotation = true;
         }
-        // Клавиатура
         keyboard = Keyboard.current;
     }
     void Update()
     {
-        // Движение
         float moveInput = 0f;
         if (keyboard.aKey.isPressed) moveInput = -1f;
         if (keyboard.dKey.isPressed) moveInput = 1f;
@@ -44,6 +43,7 @@ public class Doodlik : MonoBehaviour
             canJump = true;
         }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Platform") && canJump)
@@ -57,7 +57,6 @@ public class Doodlik : MonoBehaviour
                     break;
                 }
             }
-
             if (isFromBelow)
             {
                 Jump();
@@ -66,18 +65,35 @@ public class Doodlik : MonoBehaviour
             }
         }
     }
-
     void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-
-        // Прыжок
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
-        // Добавляем очки
         if (GameManager.Instance != null)
         {
             GameManager.Instance.AddScore(10);
         }
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Die();
+        }
+    }
+    // Метод смерти игрока
+    public void Die()
+    {
+        Debug.Log("Игрок умер!");
+        enabled = false;
+        GetComponent<SpriteRenderer>().color = Color.red;
+        Invoke("RestartLevel", 1f);
+    }
+
+    void RestartLevel()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+        );
     }
 }

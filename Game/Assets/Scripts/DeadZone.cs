@@ -7,11 +7,11 @@ public class DeadZoneCollider : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Игрок вошёл в мёртвую зону!");
+            Debug.Log("РРіСЂРѕРє РІРѕС€С‘Р» РІ РјС‘СЂС‚РІСѓСЋ Р·РѕРЅСѓ!");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
-    [ContextMenu("Автонастройка коллайдера")]
+    [ContextMenu("РђРІС‚РѕРЅР°СЃС‚СЂРѕР№РєР° РєРѕР»Р»Р°Р№РґРµСЂР°")]
     void SetupCollider()
     {
         Camera cam = Camera.main;
@@ -20,7 +20,7 @@ public class DeadZoneCollider : MonoBehaviour
         if (cam != null && collider != null)
         {
             float screenWidth = cam.orthographicSize * cam.aspect * 2f;
-            float screenHeight = 1f; // Высота зоны
+            float screenHeight = 1f; // Р’С‹СЃРѕС‚Р° Р·РѕРЅС‹
             collider.size = new Vector2(screenWidth + 2f, screenHeight);
             Vector3 bottomCenter = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, 0));
             transform.position = new Vector3(
@@ -29,7 +29,7 @@ public class DeadZoneCollider : MonoBehaviour
                 0
             );
 
-            Debug.Log($"Коллайдер настроен: размер={collider.size}, позиция={transform.position}");
+            Debug.Log($"РљРѕР»Р»Р°Р№РґРµСЂ РЅР°СЃС‚СЂРѕРµРЅ: СЂР°Р·РјРµСЂ={collider.size}, РїРѕР·РёС†РёСЏ={transform.position}");
         }
     }
 }
